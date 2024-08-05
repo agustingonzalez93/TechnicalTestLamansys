@@ -16,14 +16,14 @@ import tasks.SearchFirstItem;
 import tasks.SwitchToNewTab;
 import ui.ebay.EbayHomePage;
 import ui.ebay.EbayItmPage;
-import utilities.DataInfo;
+import utilities.Utils;
 
 import static net.serenitybdd.screenplay.GivenWhenThen.*;
 import static net.serenitybdd.screenplay.GivenWhenThen.seeThat;
 import static org.hamcrest.Matchers.equalTo;
 
 @RunWith(SerenityRunner.class)
-public class Ebay {
+public class EbayTests {
     @Managed
     WebDriver webDriver;
     Actor agus = Actor.named("Agus");
@@ -43,7 +43,7 @@ public class Ebay {
     @Test
     public void showPriceOfFirstElectricGuitar() {
         givenThat(agus).attemptsTo(
-                SearchFirstItem.withProductName(DataInfo.getProperty("electricGuitar"))
+                SearchFirstItem.withProductName(Utils.getProperty("electricGuitar"))
         );
 
         when(agus).attemptsTo(

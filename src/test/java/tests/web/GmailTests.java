@@ -17,7 +17,7 @@ import questions.LoginInformation;
 import tasks.Login;
 import ui.gmail.GmailHomePage;
 import ui.gmail.SessionLoggedinPage;
-import utilities.DataInfo;
+import utilities.Utils;
 
 import java.time.Duration;
 
@@ -28,7 +28,7 @@ import static net.serenitybdd.screenplay.questions.WebElementQuestion.the;
 import static org.hamcrest.Matchers.equalTo;
 
 @RunWith(SerenityRunner.class)
-public class Gmail {
+public class GmailTests {
     @Managed
     WebDriver webDriver;
     Actor agus = Actor.named("Agus");
@@ -48,7 +48,7 @@ public class Gmail {
     @Test
     public void validateLoginSuccessful() {
         givenThat(agus).has(
-                Login.as(DataInfo.getProperty("email"), DataInfo.getProperty("password"))
+                Login.as(Utils.getProperty("email"), Utils.getProperty("password"))
         );
 
         when(agus).attemptsTo(
@@ -66,7 +66,7 @@ public class Gmail {
     @Test
     public void validateLoginUnsuccessful() {
         when(agus).attemptsTo(
-                Login.as(DataInfo.getProperty("email"), DataInfo.getProperty("incorrectPassword"))
+                Login.as(Utils.getProperty("email"), Utils.getProperty("incorrectPassword"))
         );
 
         then(agus).should(
