@@ -1,1 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><testsuite errors="0" failures="0" name="tests.web.Gmail" skipped="0" tests="1" time="14.07" timestamp="2024-08-03 10:23:43"><testcase classname="tests.web.Gmail" name="Validate login unsuccessful"/></testsuite>

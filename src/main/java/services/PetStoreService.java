@@ -14,7 +14,7 @@ import static org.apache.http.HttpStatus.SC_OK;
 public class PetStoreService {
 
     private static final Logger logger = Logger.getLogger(User.class.getName());
-    public static final String BASE_URL = "https://petstore.swagger.io/v2";
+    private static final String BASE_URL = "https://petstore.swagger.io/v2";
 
     public static CreateAndModifyUserResponse postUser(String newUser) {
         logger.info("Se realiza un post al servicio para crear nuevo usuario");
@@ -27,12 +27,13 @@ public class PetStoreService {
         return new Gson().fromJson(jsonResponse, CreateAndModifyUserResponse.class);
     }
 
-    public static User getUser(String userName) {
+    public static User getUser(String userName) throws InterruptedException {
         logger.info("Se realiza un get sobre el usuario para obtener los datos");
         RequestSpecification request = RestAssured.given();
         setHeaders(request);
         request.pathParam("username", userName);
         Response response = request.get(BASE_URL + "/user/{username}");
+        response = retryToGet(response, request);
         response.then().statusCode(SC_OK);
         String jsonResponse = response.getBody().asString();
         return new Gson().fromJson(jsonResponse, User.class);
@@ -52,5 +53,18 @@ public class PetStoreService {
 
     private static void setHeaders(RequestSpecification request) {
         request.header("Content-Type", "application/json");
+    }
+
+    private static Response retryToGet(Response response, RequestSpecification request) throws InterruptedException {
+        int retries = 5;
+        for (int i = 0; i < retries; i++) {
+            Thread.sleep(2000);
+            if (response.getBody().asString().contains("User not found")) {
+                response = request.get(BASE_URL + "/user/{username}");
+            } else {
+                break;
+            }
+        }
+        return response;
     }
 }

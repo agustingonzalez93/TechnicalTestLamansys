@@ -30,7 +30,7 @@ public class PetStoreTests {
     }
 
     @Test
-    public void createUserAndValidateByName() throws IOException {
+    public void createUserAndValidateByName() throws IOException, InterruptedException {
         UserData userData = setInputData();
         createUserResponse = PetStoreService.postUser(userData.getObjectMapper().writeValueAsString(userData.getNewUser()));
         ValidationsService.validateUserCreation(userData.getNewUser(), createUserResponse);
@@ -40,7 +40,7 @@ public class PetStoreTests {
     }
 
     @Test
-    public void updateUserAndValidateByName() throws IOException {
+    public void updateUserAndValidateByName() throws IOException, InterruptedException {
         UserData userData = setInputData();
         createUserResponse = PetStoreService.postUser(userData.getObjectMapper().writeValueAsString(userData.getNewUser()));
         ValidationsService.validateUserCreation(userData.getNewUser(), createUserResponse);
